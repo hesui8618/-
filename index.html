@@ -504,6 +504,66 @@
                     </ul>
                 </div>
             </div>
+            
+            <!-- 漫画资源卡片 -->
+            <div class="card" data-category="comic">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #FF9966, #FF5E62);">漫</div>
+                        <h2 class="card-title">漫画资源</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="comic">折叠</button>
+                </div>
+                <div class="card-content" id="comic-content">
+                    <ul class="link-list">
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">1</span>
+                                <span class="link-name">漫画屋</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.dm5.com/" target="_blank">https://www.dm5.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">2</span>
+                                <span class="link-name">漫漫漫画</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manmanapp.com/" target="_blank">https://www.manmanapp.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">3</span>
+                                <span class="link-name">漫画柜</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manhuagui.com/" target="_blank">https://www.manhuagui.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">4</span>
+                                <span class="link-name">漫本</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manben.com/" target="_blank">https://www.manben.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">5</span>
+                                <span class="link-name">包子漫画</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.baozimh.com/" target="_blank">https://www.baozimh.com/</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         
         <!-- 添加链接模态框 -->
@@ -519,6 +579,7 @@
                         <select class="form-select" id="linkCategory">
                             <option value="magnet">磁力工具</option>
                             <option value="video">影视资源</option>
+                            <option value="comic">漫画资源</option>
                             <option value="new">新建分类...</option>
                         </select>
                     </div>
@@ -722,6 +783,8 @@
                 linkList = document.querySelector('#magnet-content .link-list');
             } else if (category === 'video') {
                 linkList = document.querySelector('#video-content .link-list');
+            } else if (category === 'comic') {
+                linkList = document.querySelector('#comic-content .link-list');
             } else {
                 // 自定义分类
                 linkList = document.querySelector(`#${category}-content .link-list`);
@@ -837,7 +900,7 @@
             customLinks.forEach(link => {
                 // 查找对应分类的链接列表
                 let categoryId = link.category;
-                if (categoryId !== 'magnet' && categoryId !== 'video') {
+                if (categoryId !== 'magnet' && categoryId !== 'video' && categoryId !== 'comic') {
                     categoryId = categoryId.toLowerCase().replace(/[^a-z0-9]/g, '');
                 }
                 
