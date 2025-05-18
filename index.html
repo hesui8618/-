@@ -362,27 +362,13 @@
             background-color: #5d7ce0;
         }
         
-        /* 自定义类别样式 */
-        .custom-category {
-            border-left: 3px solid #a777e3;
-        }
-    </style>
+            /* 自定义类别样式 */        .custom-category {            border-left: 3px solid #a777e3;        }                /* 语言切换按钮样式 */        .language-controls {            display: flex;            gap: 5px;            margin-right: 10px;        }                .language-btn {            background-color: rgba(255, 255, 255, 0.2);            border: none;            color: white;            padding: 5px 8px;            border-radius: 4px;            cursor: pointer;            font-size: 0.85rem;            transition: all 0.2s;        }                .language-btn:hover {            background-color: rgba(255, 255, 255, 0.3);        }                .language-btn.active {            background-color: rgba(255, 255, 255, 0.4);            font-weight: bold;        }    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>个人导航站</h1>
-            <div class="subtitle">收集实用网站，提高上网效率</div>
-            <div class="user-controls">
-                <button class="theme-toggle" id="themeToggle">切换主题</button>
-                <button class="add-link-btn" id="addLinkBtn">添加链接</button>
-                <button class="user-btn" id="userBtn">登录</button>
-            </div>
-        </header>
+                        <header>            <h1 id="siteTitle">个人导航站</h1>            <div class="subtitle" id="siteSubtitle">收集实用网站，提高上网效率</div>            <div class="user-controls">                <div class="language-controls">                    <button class="language-btn" data-lang="en" id="enLangBtn">EN</button>                    <button class="language-btn active" data-lang="zh" id="zhLangBtn">中</button>                    <button class="language-btn" data-lang="ja" id="jaLangBtn">日</button>                </div>                <button class="theme-toggle" id="themeToggle">切换主题</button>                <button class="add-link-btn" id="addLinkBtn">添加链接</button>                <button class="user-btn" id="userBtn">登录</button>            </div>        </header>
         
-        <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="搜索网站...">
-        </div>
+                <div class="search-container">            <input type="text" class="search-input" id="searchInput" placeholder="搜索网站...">        </div>
         
         <div class="card-container" id="cardContainer">
             <!-- 磁力工具卡片 -->
@@ -927,6 +913,169 @@
                 linkList.appendChild(newLink);
             });
         }
+
+        // ===== 多语言支持 =====
+        // 定义语言文本
+        const translations = {
+            'en': {
+                'siteTitle': 'Personal Navigation Site',
+                'siteSubtitle': 'Collect useful websites, improve browsing efficiency',
+                'searchPlaceholder': 'Search websites...',
+                'themeToggle': 'Toggle Theme',
+                'addLink': 'Add Link',
+                'login': 'Login',
+                'magnet': 'Magnet Tools',
+                'video': 'Video Sites',
+                'comic': 'Comic Sites',
+                'collapse': 'Collapse',
+                'expand': 'Expand',
+                'modalTitle': 'Add New Link',
+                'linkName': 'Link Name',
+                'linkUrl': 'Link URL',
+                'linkCategory': 'Category',
+                'newCategory': 'New Category Name',
+                'submit': 'Submit',
+                'cancel': 'Cancel'
+            },
+            'zh': {
+                'siteTitle': '个人导航站',
+                'siteSubtitle': '收集实用网站，提高上网效率',
+                'searchPlaceholder': '搜索网站...',
+                'themeToggle': '切换主题',
+                'addLink': '添加链接',
+                'login': '登录',
+                'magnet': '磁力工具',
+                'video': '视频网站',
+                'comic': '漫画网站',
+                'collapse': '折叠',
+                'expand': '展开',
+                'modalTitle': '添加新链接',
+                'linkName': '链接名称',
+                'linkUrl': '链接地址',
+                'linkCategory': '分类',
+                'newCategory': '新分类名称',
+                'submit': '提交',
+                'cancel': '取消'
+            },
+            'ja': {
+                'siteTitle': '個人ナビゲーションサイト',
+                'siteSubtitle': '便利なウェブサイトを集めて、閲覧効率を向上',
+                'searchPlaceholder': 'サイトを検索...',
+                'themeToggle': 'テーマ切替',
+                'addLink': 'リンク追加',
+                'login': 'ログイン',
+                'magnet': 'マグネットツール',
+                'video': '動画サイト',
+                'comic': '漫画サイト',
+                'collapse': '折りたたむ',
+                'expand': '展開',
+                'modalTitle': '新しいリンクを追加',
+                'linkName': 'リンク名',
+                'linkUrl': 'リンクURL',
+                'linkCategory': 'カテゴリ',
+                'newCategory': '新カテゴリ名',
+                'submit': '送信',
+                'cancel': 'キャンセル'
+            }
+        };
+
+        // 设置当前语言
+        let currentLang = localStorage.getItem('preferredLanguage') || 'zh';
+
+        // 应用语言
+        function applyLanguage(lang) {
+            // 保存语言选择
+            localStorage.setItem('preferredLanguage', lang);
+            currentLang = lang;
+            
+            // 更新页面文本
+            document.getElementById('siteTitle').innerText = translations[lang].siteTitle;
+            document.getElementById('siteSubtitle').innerText = translations[lang].siteSubtitle;
+            document.getElementById('searchInput').placeholder = translations[lang].searchPlaceholder;
+            document.getElementById('themeToggle').innerText = translations[lang].themeToggle;
+            document.getElementById('addLinkBtn').innerText = translations[lang].addLink;
+            document.getElementById('userBtn').innerText = translations[lang].login;
+            
+            // 更新卡片标题
+            const magnetTitle = document.querySelector('[data-category="magnet"] .card-title');
+            const videoTitle = document.querySelector('[data-category="video"] .card-title');
+            const comicTitle = document.querySelector('[data-category="comic"] .card-title');
+            
+            if (magnetTitle) magnetTitle.innerText = translations[lang].magnet;
+            if (videoTitle) videoTitle.innerText = translations[lang].video;
+            if (comicTitle) comicTitle.innerText = translations[lang].comic;
+            
+            // 更新折叠/展开按钮
+            document.querySelectorAll('.collapse-btn').forEach(btn => {
+                if (btn.textContent.trim() === translations['zh'].collapse) {
+                    btn.textContent = translations[lang].collapse;
+                } else if (btn.textContent.trim() === translations['zh'].expand) {
+                    btn.textContent = translations[lang].expand;
+                }
+            });
+            
+            // 更新语言按钮样式
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 如果模态框存在，更新模态框文本
+            const modalTitle = document.querySelector('.modal-title');
+            if (modalTitle) {
+                modalTitle.innerText = translations[lang].modalTitle;
+                
+                const labels = document.querySelectorAll('.form-label');
+                labels[0].innerText = translations[lang].linkName;
+                labels[1].innerText = translations[lang].linkUrl;
+                labels[2].innerText = translations[lang].linkCategory;
+                
+                const newCategoryLabel = document.querySelector('#newCategoryGroup .form-label');
+                if (newCategoryLabel) {
+                    newCategoryLabel.innerText = translations[lang].newCategory;
+                }
+                
+                const submitBtn = document.querySelector('.form-submit');
+                if (submitBtn) {
+                    submitBtn.innerText = translations[lang].submit;
+                }
+                
+                const cancelBtn = document.querySelector('.close-modal');
+                if (cancelBtn) {
+                    cancelBtn.innerText = translations[lang].cancel;
+                }
+            }
+        }
+        
+        // 初始化时加载语言设置
+        function loadLanguagePreference() {
+            const lang = localStorage.getItem('preferredLanguage') || 'zh';
+            applyLanguage(lang);
+        }
+        
+        // 文档加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCollapsibles();
+            loadThemePreference();
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('searchInput').addEventListener('input', searchLinks);
+            
+            // 加载自定义内容
+            loadCustomLinks();
+            
+            // 添加链接模态框
+            setupAddLinkModal();
+            
+            // 加载语言设置
+            loadLanguagePreference();
+            
+            // 添加语言切换事件监听
+            document.getElementById('enLangBtn').addEventListener('click', () => applyLanguage('en'));
+            document.getElementById('zhLangBtn').addEventListener('click', () => applyLanguage('zh'));
+            document.getElementById('jaLangBtn').addEventListener('click', () => applyLanguage('ja'));
+        });
     </script>
 </body>
 </html>
