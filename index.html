@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FV9PJT64JF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FV9PJT64JF');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人导航站</title>
+    <!-- React 和 ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        body.dark-mode .card {
+            background: #2d2d2d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        body.dark-mode .card-header {
+            border-bottom: 1px solid #444;
+        }
+        
+        .card-header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .magnet-icon {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+        }
+        
+        .video-icon {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .link-list {
+            list-style: none;
+        }
+        
+        .link-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+            transition: all 0.2s ease;
+        }
+        
+        body.dark-mode .link-item {
+            border-bottom: 1px dashed #444;
+        }
+        
+        .link-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .link-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .link-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        body.dark-mode .link-number {
+            background-color: #444;
+            color: #f0f0f0;
+        }
+        
+        .link-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .link-url {
+            margin-left: 35px;
+            word-break: break-all;
+        }
+        
+        .link-url a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        body.dark-mode .link-url a {
+            color: #5dade2;
+        }
+        
+        .link-url a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        body.dark-mode .link-url a:hover {
+            color: #85c1e9;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                max-width: 100%;
+            }
+        }
+        
+        /* Rin框架整合的样式 */
+        .user-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .theme-toggle, .user-btn, .add-link-btn, .collapse-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .theme-toggle:hover, .user-btn:hover, .add-link-btn:hover, .collapse-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-input {
+            width: 60%;
+            max-width: 500px;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        body.dark-mode .search-input {
+            background-color: #333;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+        
+        .search-input:focus {
+            border-color: #a777e3;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        body.dark-mode .modal {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        body.dark-mode .close-modal {
+            color: #aaa;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        body.dark-mode .form-input, body.dark-mode .form-select {
+            background-color: #333;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+        
+        .form-submit {
+            background-color: #6e8efb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .form-submit:hover {
+            background-color: #5d7ce0;
+        }
+        
+            /* 自定义类别样式 */        .custom-category {            border-left: 3px solid #a777e3;        }                /* 语言切换按钮样式 */        .language-controls {            display: flex;            gap: 5px;            margin-right: 10px;        }                .language-btn {            background-color: rgba(255, 255, 255, 0.2);            border: none;            color: white;            padding: 5px 8px;            border-radius: 4px;            cursor: pointer;            font-size: 0.85rem;            transition: all 0.2s;        }                .language-btn:hover {            background-color: rgba(255, 255, 255, 0.3);        }                .language-btn.active {            background-color: rgba(255, 255, 255, 0.4);            font-weight: bold;        }    </style>
+</head>
+<body>
+    <div class="container">
+                        <header>            <h1 id="siteTitle">个人导航站</h1>            <div class="subtitle" id="siteSubtitle">收集实用网站，提高上网效率</div>            <div class="user-controls">                <div class="language-controls">                    <button class="language-btn" data-lang="en" id="enLangBtn">EN</button>                    <button class="language-btn active" data-lang="zh" id="zhLangBtn">中</button>                    <button class="language-btn" data-lang="ja" id="jaLangBtn">日</button>                </div>                <button class="theme-toggle" id="themeToggle">切换主题</button>                <button class="add-link-btn" id="addLinkBtn">添加链接</button>                <button class="user-btn" id="userBtn">登录</button>            </div>        </header>
+        
+                <div class="search-container">            <input type="text" class="search-input" id="searchInput" placeholder="搜索网站...">        </div>
+        
+        <div class="card-container" id="cardContainer">
+            <!-- 磁力工具卡片 -->
+            <div class="card" data-category="magnet">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon magnet-icon">磁</div>
+                        <h2 class="card-title">磁力工具</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="magnet">折叠</button>
+                </div>
+                <div class="card-content" id="magnet-content">
+                    <ul class="link-list">
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">1</span>
+                                <span class="link-name">老王磁力</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://laowangun.top/" target="_blank">https://laowangun.top/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">2</span>
+                                <span class="link-name">黑马磁力</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://heimaai.top/" target="_blank">https://heimaai.top/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">3</span>
+                                <span class="link-name">磁力搜索</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://cilisousuo.com/" target="_blank">https://cilisousuo.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">4</span>
+                                <span class="link-name">838888</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.868888.net/" target="_blank">https://www.868888.net/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">5</span>
+                                <span class="link-name">磁力多</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://ug.cilido.top/" target="_blank">https://ug.cilido.top/</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 影视资源卡片 -->
+            <div class="card" data-category="video">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon video-icon">影</div>
+                        <h2 class="card-title">影视资源</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="video">折叠</button>
+                </div>
+                <div class="card-content" id="video-content">
+                    <ul class="link-list">
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">1</span>
+                                <span class="link-name">低端影视</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://ddys.pro/" target="_blank">https://ddys.pro/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">2</span>
+                                <span class="link-name">喵物次元</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.mwcy.net/" target="_blank">https://www.mwcy.net/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">3</span>
+                                <span class="link-name">搜片</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://soupian.pro/" target="_blank">https://soupian.pro/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">4</span>
+                                <span class="link-name">SeedHub</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.seedhub.cc/" target="_blank">https://www.seedhub.cc/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">5</span>
+                                <span class="link-name">看片狂人</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.kpkuang.org/" target="_blank">https://www.kpkuang.org/</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 漫画资源卡片 -->
+            <div class="card" data-category="comic">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #FF9966, #FF5E62);">漫</div>
+                        <h2 class="card-title">漫画资源</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="comic">折叠</button>
+                </div>
+                <div class="card-content" id="comic-content">
+                    <ul class="link-list">
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">1</span>
+                                <span class="link-name">漫画屋</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.dm5.com/" target="_blank">https://www.dm5.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">2</span>
+                                <span class="link-name">漫漫漫画</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manmanapp.com/" target="_blank">https://www.manmanapp.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">3</span>
+                                <span class="link-name">漫画柜</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manhuagui.com/" target="_blank">https://www.manhuagui.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">4</span>
+                                <span class="link-name">漫本</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.manben.com/" target="_blank">https://www.manben.com/</a>
+                            </div>
+                        </li>
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">5</span>
+                                <span class="link-name">包子漫画</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="https://www.baozimh.com/" target="_blank">https://www.baozimh.com/</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 添加链接模态框 -->
+        <div class="modal-overlay hidden" id="addLinkModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">添加新链接</h3>
+                    <button class="close-modal" id="closeAddLinkModal">&times;</button>
+                </div>
+                <form id="addLinkForm">
+                    <div class="form-group">
+                        <label class="form-label" for="linkCategory">分类</label>
+                        <select class="form-select" id="linkCategory">
+                            <option value="magnet">磁力工具</option>
+                            <option value="video">影视资源</option>
+                            <option value="comic">漫画资源</option>
+                            <option value="new">新建分类...</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="newCategoryGroup">
+                        <label class="form-label" for="newCategory">新分类名称</label>
+                        <input type="text" class="form-input" id="newCategory" placeholder="输入新分类名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="linkName">链接名称</label>
+                        <input type="text" class="form-input" id="linkName" placeholder="输入链接名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="linkUrl">链接地址</label>
+                        <input type="url" class="form-input" id="linkUrl" placeholder="https://example.com" required>
+                    </div>
+                    <button type="submit" class="form-submit">添加链接</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- 登录模态框 -->
+        <div class="modal-overlay hidden" id="loginModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">用户登录</h3>
+                    <button class="close-modal" id="closeLoginModal">&times;</button>
+                </div>
+                <div style="text-align: center; padding: 20px;">
+                    <button class="form-submit" id="githubLoginBtn">
+                        使用GitHub登录
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 个人导航站 | 最后更新于 <span id="lastUpdated">2025年5月17日</span></p>
+        </footer>
+    </div>
+    
+    <!-- 从Rin框架整合的JavaScript功能 -->
+    <script>
+        // 初始化函数
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载主题设置
+            loadThemePreference();
+            
+            // 加载本地存储的自定义链接
+            loadCustomLinks();
+            
+            // 更新最后更新时间
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // 设置事件监听器
+            setupEventListeners();
+        });
+        
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 主题切换
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            
+            // 搜索功能
+            document.getElementById('searchInput').addEventListener('input', searchLinks);
+            
+            // 添加链接按钮
+            document.getElementById('addLinkBtn').addEventListener('click', function() {
+                document.getElementById('addLinkModal').classList.remove('hidden');
+            });
+            
+            // 关闭添加链接模态框
+            document.getElementById('closeAddLinkModal').addEventListener('click', function() {
+                document.getElementById('addLinkModal').classList.add('hidden');
+            });
+            
+            // 处理分类选择
+            document.getElementById('linkCategory').addEventListener('change', function() {
+                if (this.value === 'new') {
+                    document.getElementById('newCategoryGroup').classList.remove('hidden');
+                } else {
+                    document.getElementById('newCategoryGroup').classList.add('hidden');
+                }
+            });
+            
+            // 添加链接表单提交
+            document.getElementById('addLinkForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewLink();
+            });
+            
+            // 用户按钮
+            document.getElementById('userBtn').addEventListener('click', function() {
+                document.getElementById('loginModal').classList.remove('hidden');
+            });
+            
+            // 关闭登录模态框
+            document.getElementById('closeLoginModal').addEventListener('click', function() {
+                document.getElementById('loginModal').classList.add('hidden');
+            });
+            
+            // GitHub登录
+            document.getElementById('githubLoginBtn').addEventListener('click', function() {
+                alert('模拟GitHub登录过程，实际部署时需接入OAuth API');
+                document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('userBtn').textContent = 'User';
+            });
+            
+            // 折叠按钮
+            const collapseButtons = document.querySelectorAll('.collapse-btn');
+            collapseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    const content = document.getElementById(`${target}-content`);
+                    content.classList.toggle('hidden');
+                    this.textContent = content.classList.contains('hidden') ? '展开' : '折叠';
+                });
+            });
+        }
+        
+        // 切换暗黑模式
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+        
+        // 加载主题设置
+        function loadThemePreference() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        // 搜索链接
+        function searchLinks() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const linkItems = document.querySelectorAll('.link-item');
+            
+            if (searchTerm === '') {
+                // 如果搜索框为空，显示所有链接
+                linkItems.forEach(item => {
+                    item.style.display = '';
+                });
+                
+                // 显示所有卡片
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = '';
+                });
+                return;
+            }
+            
+            // 隐藏所有链接，然后只显示匹配的
+            linkItems.forEach(item => {
+                const linkText = item.textContent.toLowerCase();
+                if (linkText.includes(searchTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // 隐藏没有匹配链接的卡片
+            document.querySelectorAll('.card').forEach(card => {
+                const visibleLinks = card.querySelectorAll('.link-item[style=""]');
+                if (visibleLinks.length === 0) {
+                    card.style.display = 'none';
+                } else {
+                    card.style.display = '';
+                }
+            });
+        }
+        
+        // 添加新链接
+        function addNewLink() {
+            // 获取表单数据
+            const categorySelect = document.getElementById('linkCategory');
+            let category = categorySelect.value;
+            const linkName = document.getElementById('linkName').value;
+            const linkUrl = document.getElementById('linkUrl').value;
+            
+            // 检查是否是新分类
+            if (category === 'new') {
+                category = document.getElementById('newCategory').value;
+                if (!category) {
+                    alert('请输入新分类名称');
+                    return;
+                }
+                
+                // 创建新分类卡片
+                createNewCategory(category);
+            }
+            
+            // 查找对应分类的链接列表
+            let linkList;
+            if (category === 'magnet') {
+                linkList = document.querySelector('#magnet-content .link-list');
+            } else if (category === 'video') {
+                linkList = document.querySelector('#video-content .link-list');
+            } else if (category === 'comic') {
+                linkList = document.querySelector('#comic-content .link-list');
+            } else {
+                // 自定义分类
+                linkList = document.querySelector(`#${category}-content .link-list`);
+            }
+            
+            // 获取当前链接数量，用于编号
+            const linkNumber = linkList.children.length + 1;
+            
+            // 创建新链接元素
+            const newLink = document.createElement('li');
+            newLink.className = 'link-item';
+            newLink.innerHTML = `
+                <div class="link-title">
+                    <span class="link-number">${linkNumber}</span>
+                    <span class="link-name">${linkName}</span>
+                </div>
+                <div class="link-url">
+                    <a href="${linkUrl}" target="_blank">${linkUrl}</a>
+                </div>
+            `;
+            
+            // 添加到链接列表
+            linkList.appendChild(newLink);
+            
+            // 保存到本地存储
+            saveCustomLink(category, linkName, linkUrl);
+            
+            // 清空表单并关闭模态框
+            document.getElementById('linkName').value = '';
+            document.getElementById('linkUrl').value = '';
+            categorySelect.value = 'magnet';
+            document.getElementById('newCategory').value = '';
+            document.getElementById('newCategoryGroup').classList.add('hidden');
+            document.getElementById('addLinkModal').classList.add('hidden');
+        }
+        
+        // 创建新分类
+        function createNewCategory(category) {
+            // 检查分类是否已存在
+            if (document.querySelector(`[data-category="${category}"]`)) {
+                return; // 分类已存在，无需创建
+            }
+            
+            // 创建分类ID（去除空格和特殊字符）
+            const categoryId = category.toLowerCase().replace(/[^a-z0-9]/g, '');
+            
+            // 创建新卡片
+            const newCard = document.createElement('div');
+            newCard.className = 'card custom-category';
+            newCard.setAttribute('data-category', categoryId);
+            
+            // 随机生成图标背景色
+            const hue = Math.floor(Math.random() * 360);
+            const iconStyle = `background: linear-gradient(135deg, hsl(${hue}, 70%, 50%), hsl(${hue + 30}, 70%, 50%));`;
+            
+            // 取分类名称第一个字
+            const firstChar = category.charAt(0);
+            
+            newCard.innerHTML = `
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon" style="${iconStyle}">${firstChar}</div>
+                        <h2 class="card-title">${category}</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="${categoryId}">折叠</button>
+                </div>
+                <div class="card-content" id="${categoryId}-content">
+                    <ul class="link-list">
+                    </ul>
+                </div>
+            `;
+            
+            // 添加到卡片容器
+            document.getElementById('cardContainer').appendChild(newCard);
+            
+            // 为新添加的折叠按钮添加事件监听
+            const collapseBtn = newCard.querySelector('.collapse-btn');
+            collapseBtn.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                const content = document.getElementById(`${target}-content`);
+                content.classList.toggle('hidden');
+                this.textContent = content.classList.contains('hidden') ? '展开' : '折叠';
+            });
+            
+            // 保存分类到本地存储
+            saveCustomCategory(category, categoryId);
+        }
+        
+        // 保存自定义链接
+        function saveCustomLink(category, name, url) {
+            let customLinks = JSON.parse(localStorage.getItem('customLinks') || '[]');
+            customLinks.push({ category, name, url });
+            localStorage.setItem('customLinks', JSON.stringify(customLinks));
+        }
+        
+        // 保存自定义分类
+        function saveCustomCategory(name, id) {
+            let customCategories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+            customCategories.push({ name, id });
+            localStorage.setItem('customCategories', JSON.stringify(customCategories));
+        }
+        
+        // 加载自定义链接
+        function loadCustomLinks() {
+            // 先加载自定义分类
+            const customCategories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+            customCategories.forEach(category => {
+                createNewCategory(category.name);
+            });
+            
+            // 再加载自定义链接
+            const customLinks = JSON.parse(localStorage.getItem('customLinks') || '[]');
+            customLinks.forEach(link => {
+                // 查找对应分类的链接列表
+                let categoryId = link.category;
+                if (categoryId !== 'magnet' && categoryId !== 'video' && categoryId !== 'comic') {
+                    categoryId = categoryId.toLowerCase().replace(/[^a-z0-9]/g, '');
+                }
+                
+                const linkList = document.querySelector(`#${categoryId}-content .link-list`);
+                if (!linkList) return;
+                
+                // 获取当前链接数量
+                const linkNumber = linkList.children.length + 1;
+                
+                // 创建链接元素
+                const newLink = document.createElement('li');
+                newLink.className = 'link-item';
+                newLink.innerHTML = `
+                    <div class="link-title">
+                        <span class="link-number">${linkNumber}</span>
+                        <span class="link-name">${link.name}</span>
+                    </div>
+                    <div class="link-url">
+                        <a href="${link.url}" target="_blank">${link.url}</a>
+                    </div>
+                `;
+                
+                // 添加到链接列表
+                linkList.appendChild(newLink);
+            });
+        }
+
+        // ===== 多语言支持 =====
+        // 定义语言文本
+        const translations = {
+            'en': {
+                'siteTitle': 'Personal Navigation Site',
+                'siteSubtitle': 'Collect useful websites, improve browsing efficiency',
+                'searchPlaceholder': 'Search websites...',
+                'themeToggle': 'Toggle Theme',
+                'addLink': 'Add Link',
+                'login': 'Login',
+                'magnet': 'Magnet Tools',
+                'video': 'Video Sites',
+                'comic': 'Comic Sites',
+                'collapse': 'Collapse',
+                'expand': 'Expand',
+                'modalTitle': 'Add New Link',
+                'linkName': 'Link Name',
+                'linkUrl': 'Link URL',
+                'linkCategory': 'Category',
+                'newCategory': 'New Category Name',
+                'submit': 'Submit',
+                'cancel': 'Cancel'
+            },
+            'zh': {
+                'siteTitle': '个人导航站',
+                'siteSubtitle': '收集实用网站，提高上网效率',
+                'searchPlaceholder': '搜索网站...',
+                'themeToggle': '切换主题',
+                'addLink': '添加链接',
+                'login': '登录',
+                'magnet': '磁力工具',
+                'video': '视频网站',
+                'comic': '漫画网站',
+                'collapse': '折叠',
+                'expand': '展开',
+                'modalTitle': '添加新链接',
+                'linkName': '链接名称',
+                'linkUrl': '链接地址',
+                'linkCategory': '分类',
+                'newCategory': '新分类名称',
+                'submit': '提交',
+                'cancel': '取消'
+            },
+            'ja': {
+                'siteTitle': '個人ナビゲーションサイト',
+                'siteSubtitle': '便利なウェブサイトを集めて、閲覧効率を向上',
+                'searchPlaceholder': 'サイトを検索...',
+                'themeToggle': 'テーマ切替',
+                'addLink': 'リンク追加',
+                'login': 'ログイン',
+                'magnet': 'マグネットツール',
+                'video': '動画サイト',
+                'comic': '漫画サイト',
+                'collapse': '折りたたむ',
+                'expand': '展開',
+                'modalTitle': '新しいリンクを追加',
+                'linkName': 'リンク名',
+                'linkUrl': 'リンクURL',
+                'linkCategory': 'カテゴリ',
+                'newCategory': '新カテゴリ名',
+                'submit': '送信',
+                'cancel': 'キャンセル'
+            }
+        };
+
+        // 设置当前语言
+        let currentLang = localStorage.getItem('preferredLanguage') || 'zh';
+
+        // 应用语言
+        function applyLanguage(lang) {
+            // 保存语言选择
+            localStorage.setItem('preferredLanguage', lang);
+            currentLang = lang;
+            
+            // 更新页面文本
+            document.getElementById('siteTitle').innerText = translations[lang].siteTitle;
+            document.getElementById('siteSubtitle').innerText = translations[lang].siteSubtitle;
+            document.getElementById('searchInput').placeholder = translations[lang].searchPlaceholder;
+            document.getElementById('themeToggle').innerText = translations[lang].themeToggle;
+            document.getElementById('addLinkBtn').innerText = translations[lang].addLink;
+            document.getElementById('userBtn').innerText = translations[lang].login;
+            
+            // 更新卡片标题
+            const magnetTitle = document.querySelector('[data-category="magnet"] .card-title');
+            const videoTitle = document.querySelector('[data-category="video"] .card-title');
+            const comicTitle = document.querySelector('[data-category="comic"] .card-title');
+            
+            if (magnetTitle) magnetTitle.innerText = translations[lang].magnet;
+            if (videoTitle) videoTitle.innerText = translations[lang].video;
+            if (comicTitle) comicTitle.innerText = translations[lang].comic;
+            
+            // 更新折叠/展开按钮
+            document.querySelectorAll('.collapse-btn').forEach(btn => {
+                if (btn.textContent.trim() === translations['zh'].collapse) {
+                    btn.textContent = translations[lang].collapse;
+                } else if (btn.textContent.trim() === translations['zh'].expand) {
+                    btn.textContent = translations[lang].expand;
+                }
+            });
+            
+            // 更新语言按钮样式
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 如果模态框存在，更新模态框文本
+            const modalTitle = document.querySelector('.modal-title');
+            if (modalTitle) {
+                modalTitle.innerText = translations[lang].modalTitle;
+                
+                const labels = document.querySelectorAll('.form-label');
+                labels[0].innerText = translations[lang].linkName;
+                labels[1].innerText = translations[lang].linkUrl;
+                labels[2].innerText = translations[lang].linkCategory;
+                
+                const newCategoryLabel = document.querySelector('#newCategoryGroup .form-label');
+                if (newCategoryLabel) {
+                    newCategoryLabel.innerText = translations[lang].newCategory;
+                }
+                
+                const submitBtn = document.querySelector('.form-submit');
+                if (submitBtn) {
+                    submitBtn.innerText = translations[lang].submit;
+                }
+                
+                const cancelBtn = document.querySelector('.close-modal');
+                if (cancelBtn) {
+                    cancelBtn.innerText = translations[lang].cancel;
+                }
+            }
+        }
+        
+        // 初始化时加载语言设置
+        function loadLanguagePreference() {
+            const lang = localStorage.getItem('preferredLanguage') || 'zh';
+            applyLanguage(lang);
+        }
+        
+        // 文档加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCollapsibles();
+            loadThemePreference();
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('searchInput').addEventListener('input', searchLinks);
+            
+            // 加载自定义内容
+            loadCustomLinks();
+            
+            // 添加链接模态框
+            setupAddLinkModal();
+            
+            // 加载语言设置
+            loadLanguagePreference();
+            
+            // 添加语言切换事件监听
+            document.getElementById('enLangBtn').addEventListener('click', () => applyLanguage('en'));
+            document.getElementById('zhLangBtn').addEventListener('click', () => applyLanguage('zh'));
+            document.getElementById('jaLangBtn').addEventListener('click', () => applyLanguage('ja'));
+        });
+    </script>
+</body>
+</html>
