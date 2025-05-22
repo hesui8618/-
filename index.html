@@ -12,6 +12,7 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="google39a3be0d9e92ffe2" />
     <title>个人导航站</title>
     <!-- React 和 ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -52,6 +53,11 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
+        }
+        
+        body.dark-mode header {
+            background: linear-gradient(135deg, #3a4c8a, #6a4084);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         h1 {
@@ -634,6 +640,9 @@
             
             // 设置事件监听器
             setupEventListeners();
+            
+            // 加载语言设置
+            loadLanguagePreference();
         });
         
         // 设置事件监听器
@@ -696,6 +705,11 @@
                     this.textContent = content.classList.contains('hidden') ? '展开' : '折叠';
                 });
             });
+            
+            // 添加语言切换事件监听
+            document.getElementById('enLangBtn').addEventListener('click', () => applyLanguage('en'));
+            document.getElementById('zhLangBtn').addEventListener('click', () => applyLanguage('zh'));
+            document.getElementById('jaLangBtn').addEventListener('click', () => applyLanguage('ja'));
         }
         
         // 切换暗黑模式
@@ -1063,28 +1077,6 @@
             const lang = localStorage.getItem('preferredLanguage') || 'zh';
             applyLanguage(lang);
         }
-        
-        // 文档加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            setupCollapsibles();
-            loadThemePreference();
-            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
-            document.getElementById('searchInput').addEventListener('input', searchLinks);
-            
-            // 加载自定义内容
-            loadCustomLinks();
-            
-            // 添加链接模态框
-            setupAddLinkModal();
-            
-            // 加载语言设置
-            loadLanguagePreference();
-            
-            // 添加语言切换事件监听
-            document.getElementById('enLangBtn').addEventListener('click', () => applyLanguage('en'));
-            document.getElementById('zhLangBtn').addEventListener('click', () => applyLanguage('zh'));
-            document.getElementById('jaLangBtn').addEventListener('click', () => applyLanguage('ja'));
-        });
     </script>
 </body>
 </html>
