@@ -616,6 +616,30 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- 小游戏卡片 -->
+            <div class="card" data-category="games">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #FFC107, #FF9800);">游</div>
+                        <h2 class="card-title">小游戏</h2>
+                    </div>
+                    <button class="collapse-btn" data-target="games">折叠</button>
+                </div>
+                <div class="card-content" id="games-content">
+                    <ul class="link-list">
+                        <li class="link-item">
+                            <div class="link-title">
+                                <span class="link-number">1</span>
+                                <span class="link-name">扫雷</span>
+                            </div>
+                            <div class="link-url">
+                                <a href="Mine/Mine-Sweeper/index.html" target="_blank">Mine/Mine-Sweeper/index.html</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             
         </div>
         
@@ -634,6 +658,7 @@
                             <option value="video">影视资源</option>
                             <option value="comic">漫画资源</option>
                             <option value="keyword">需求收集和关键词调研</option>
+                            <option value="games">小游戏</option>
                             <option value="new">新建分类...</option>
                         </select>
                     </div>
@@ -849,6 +874,8 @@
                 linkList = document.querySelector('#comic-content .link-list');
             } else if (category === 'keyword') {
                 linkList = document.querySelector('#keyword-content .link-list');
+            } else if (category === 'games') {
+                linkList = document.querySelector('#games-content .link-list');
             } else {
                 // 自定义分类
                 linkList = document.querySelector(`#${category}-content .link-list`);
@@ -964,7 +991,7 @@
             customLinks.forEach(link => {
                 // 查找对应分类的链接列表
                 let categoryId = link.category;
-                if (categoryId !== 'magnet' && categoryId !== 'video' && categoryId !== 'comic' && categoryId !== 'keyword') {
+                if (categoryId !== 'magnet' && categoryId !== 'video' && categoryId !== 'comic' && categoryId !== 'keyword' && categoryId !== 'games') {
                     categoryId = categoryId.toLowerCase().replace(/[^a-z0-9]/g, '');
                 }
                 
@@ -1006,6 +1033,7 @@
                 'video': 'Video Sites',
                 'comic': 'Comic Sites',
                 'keyword': 'Keyword Research',
+                'games': 'Games',
                 'collapse': 'Collapse',
                 'expand': 'Expand',
                 'modalTitle': 'Add New Link',
@@ -1027,6 +1055,7 @@
                 'video': '视频网站',
                 'comic': '漫画网站',
                 'keyword': '需求收集和关键词调研',
+                'games': '小游戏',
                 'collapse': '折叠',
                 'expand': '展开',
                 'modalTitle': '添加新链接',
@@ -1048,6 +1077,7 @@
                 'video': '動画サイト',
                 'comic': '漫画サイト',
                 'keyword': 'キーワード調査',
+                'games': 'ゲーム',
                 'collapse': '折りたたむ',
                 'expand': '展開',
                 'modalTitle': '新しいリンクを追加',
@@ -1082,11 +1112,13 @@
             const videoTitle = document.querySelector('[data-category="video"] .card-title');
             const comicTitle = document.querySelector('[data-category="comic"] .card-title');
             const keywordTitle = document.querySelector('[data-category="keyword"] .card-title');
+            const gamesTitle = document.querySelector('[data-category="games"] .card-title');
             
             if (magnetTitle) magnetTitle.innerText = translations[lang].magnet;
             if (videoTitle) videoTitle.innerText = translations[lang].video;
             if (comicTitle) comicTitle.innerText = translations[lang].comic;
             if (keywordTitle) keywordTitle.innerText = translations[lang].keyword;
+            if (gamesTitle) gamesTitle.innerText = translations[lang].games;
             
             // 更新折叠/展开按钮
             document.querySelectorAll('.collapse-btn').forEach(btn => {
